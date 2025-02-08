@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="static/css/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+    <title>Car Price Prediction</title>
+</head>
+<body class="bg-dark">
+
+<div class="container">
+    <div class="row">
+        <div class="card mt-50" style="width:100%; height:100%">
+            <div class="card-header">
+                <div class="col-12" style="text-align:center">
+                    <h1>Welcome to Car Price Prediction</h1>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="post" action="#" accept-charset="utf-8">
+                    <div class="col-10 form-group" style="text-align:center">
+                        <label><b>Select Name:</b></label>
+                        <select class="selectpicker form-control" id="name" name="name" required="1">
+                            {% for name in names %}
+                            <option value="{{ name }}">{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-10 form-group" style="text-align:center">
+                        <label><b>Select Year:</b></label>
+                        <select class="selectpicker form-control" id="year" name="year" required="1">
+                            {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-10 form-group" style="text-align:center">
+                        <label><b>Enter Number of kilometers Travelled:</b></label>
+                        <input class="form-control" type="text" id="kilometers_driven" name="kilometers_driven" placeholder="Enter No. Kilometers Travelled">
+                    </div>
+                    <div class="col-10 form-group" style="text-align:center">
+                        <label><b>Select Fuel Type:</b></label>
+                        <select class="selectpicker form-control" id="fuel_type" name="fuel_type" required="1">
+                            {% for fuel_type in fuel_types %}
+                            <option value="{{ fuel_type }}">{{ fuel_type }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-10 form-group" style="text-align:center">
+                        <label><b>Select Mileage:</b></label>
+                        <select class="selectpicker form-control" id="mileage" name="mileage" required="1">
+                            {% for mileage in mileages %}
+                            <option value="{{ mileage }}">{{ mileage }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-10 form-group" style="text-align:center">
+                        <label><b>Select Engine:</b></label>
+                        <select class="selectpicker form-control" id="engine" name="engine" required="1">
+                            {% for engine in engines %}
+                            <option value="{{ engine }}">{{ engine }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-10 form-group" style="text-align:center">
+                        <label><b>Select Power:</b></label>
+                        <select class="selectpicker form-control" id="power" name="power" required="1">
+                            {% for power in powers %}
+                            <option value="{{ power }}">{{ power }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-10 form-group" style="text-align:center">
+                        <label><b>Select Seats:</b></label>
+                        <select class="selectpicker form-control" id="seats" name="seats" required="1">
+                            {% for seat in seats %}
+                            <option value="{{ seat }}">{{ seat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-10 form-group" style="text-align:center">
+                        <button class="btn btn-primary form-control" onclick="send_data()">Predict Price</button>
+                    </div>
+                </form>
+                <br>
+                <div class="row">
+                    <div class="col-12" style="text-align: center">
+                        <h3><span id="prediction"></span></h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function send_data() {
+        document.querySelector('form').addEventListener('submit', form_handler);
+        var fd = new FormData(document.querySelector('form'));
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', '/predict', true);
+        document.getElementById("prediction").innerHTML = "Wait! Predicting Price...";
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == XMLHttpRequest.DONE) {
+                document.getElementById("prediction").innerHTML = "Prediction: Rs " + xhr.responseText;
+            }
+        };
+
+        xhr.onload = function () {};
+        xhr.send(fd);
+    }
+
+    function form_handler(event) {
+        event.preventDefault();
+    }
+</script>
+
+</body>
+</html>
